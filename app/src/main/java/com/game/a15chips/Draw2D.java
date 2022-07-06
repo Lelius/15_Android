@@ -16,64 +16,82 @@ public class Draw2D extends View {
 
     private Paint mPaint = new Paint();
 
-    private Bitmap box_Bitmap;
-    private Bitmap reset_Bitmap;
-    private Bitmap close_Bitmap;
-    private Bitmap chip_1_Bitmap;
-    private Bitmap chip_2_Bitmap;
-    private Bitmap chip_3_Bitmap;
-    private Bitmap chip_4_Bitmap;
-    private Bitmap chip_5_Bitmap;
-    private Bitmap chip_6_Bitmap;
-    private Bitmap chip_7_Bitmap;
-    private Bitmap chip_8_Bitmap;
-    private Bitmap chip_9_Bitmap;
-    private Bitmap chip_10_Bitmap;
-    private Bitmap chip_11_Bitmap;
-    private Bitmap chip_12_Bitmap;
-    private Bitmap chip_13_Bitmap;
-    private Bitmap chip_14_Bitmap;
-    private Bitmap chip_15_Bitmap;
-    private Bitmap wellWhite_Bitmap;
-    private Bitmap wellBlack_Bitmap;
+    final private Bitmap box_Bitmap;
+    final private Bitmap reset_Bitmap;
+    final private Bitmap close_Bitmap;
+    final private Bitmap chip_1_Bitmap;
+    final private Bitmap chip_2_Bitmap;
+    final private Bitmap chip_3_Bitmap;
+    final private Bitmap chip_4_Bitmap;
+    final private Bitmap chip_5_Bitmap;
+    final private Bitmap chip_6_Bitmap;
+    final private Bitmap chip_7_Bitmap;
+    final private Bitmap chip_8_Bitmap;
+    final private Bitmap chip_9_Bitmap;
+    final private Bitmap chip_10_Bitmap;
+    final private Bitmap chip_11_Bitmap;
+    final private Bitmap chip_12_Bitmap;
+    final private Bitmap chip_13_Bitmap;
+    final private Bitmap chip_14_Bitmap;
+    final private Bitmap chip_15_Bitmap;
+    final private Bitmap wellWhite_Bitmap;
+    final private Bitmap wellBlack_Bitmap;
 
-    private double xRatio;
-    private double yRatio;
+    final private double xyRatio;
+    final private int width;
+    final private int height;
+    final private int xChip;
+    final private int xBox;
+    final private int xReset;
+    final private int yReset;
+    final private int xClose;
+    final private int yClose;
+    final private int xWell;
+    final private int yWell;
 
     public Draw2D(Context context) {
         super(context);
-
-        Resources res = this.getResources();
-        box_Bitmap = BitmapFactory.decodeResource(res, R.drawable.box);
-        reset_Bitmap = BitmapFactory.decodeResource(res, R.drawable.reset);
-        close_Bitmap = BitmapFactory.decodeResource(res, R.drawable.x2);
-        chip_1_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip1);
-        chip_2_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip2);
-        chip_3_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip3);
-        chip_4_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip4);
-        chip_5_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip5);
-        chip_6_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip6);
-        chip_7_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip7);
-        chip_8_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip8);
-        chip_9_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip9);
-        chip_10_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip10);
-        chip_11_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip11);
-        chip_12_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip12);
-        chip_13_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip13);
-        chip_14_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip14);
-        chip_15_Bitmap = BitmapFactory.decodeResource(res, R.drawable.chip15);
-        wellWhite_Bitmap = BitmapFactory.decodeResource(res, R.drawable.well_white_380x350);
-        wellBlack_Bitmap = BitmapFactory.decodeResource(res, R.drawable.well_black_380x350);
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
-        int height = size.y;
+        width = size.x;
+        height = size.y;
 
-        xRatio = 445 / (double)width;
-        yRatio = 445 / (double)height;
+        xBox = Math.min(width, height);
+        xyRatio = 445.0 / (double) xBox;
+        xChip = (int)(100.0 / xyRatio);
+        xReset = (int)(332.0 / xyRatio);
+        yReset = (int)(50.0 / xyRatio);
+        xClose = (int)(112.0 / xyRatio);
+        yClose = (int)(50.0 / xyRatio);
+        xWell = (int)(380.0 / xyRatio);
+        yWell = (int)(350.0 / xyRatio);
+
+        Resources res = this.getResources();
+        box_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.box), xBox, xBox, false);
+        reset_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.reset), xReset, yReset, false);
+        close_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.x2), xClose, yClose, false);
+        chip_1_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip1), xChip, xChip, false);
+        chip_2_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip2), xChip, xChip, false);
+        chip_3_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip3), xChip, xChip, false);
+        chip_4_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip4), xChip, xChip, false);
+        chip_5_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip5), xChip, xChip, false);
+        chip_6_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip6), xChip, xChip, false);
+        chip_7_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip7), xChip, xChip, false);
+        chip_8_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip8), xChip, xChip, false);
+        chip_9_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip9), xChip, xChip, false);
+        chip_10_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip10), xChip, xChip, false);
+        chip_11_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip11), xChip, xChip, false);
+        chip_12_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip12), xChip, xChip, false);
+        chip_13_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip13), xChip, xChip, false);
+        chip_14_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip14), xChip, xChip, false);
+        chip_15_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip15), xChip, xChip, false);
+        wellWhite_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_white_380x350), xWell, yWell, false);
+        wellBlack_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_black_380x350), xWell, yWell, false);
+
+
     }
 
     @Override
@@ -84,6 +102,8 @@ public class Draw2D extends View {
         mPaint.setColor(Color.BLACK);
         canvas.drawPaint(mPaint);
 
-
+        canvas.drawBitmap(box_Bitmap, 0, 0, null);
+        canvas.drawBitmap(chip_1_Bitmap, (int)(15.0 / xyRatio), (int)(15.0 / xyRatio), null);
+        canvas.drawBitmap(chip_2_Bitmap, (int)(120.0 / xyRatio), (int)(15.0 / xyRatio), null);
     }
 }
