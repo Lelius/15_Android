@@ -13,17 +13,68 @@ public class BoxWithChips {
     }
 
     public boolean moveChip(int numberChip) {
+        PairXY chipPlace = searchChipPlace(numberChip);
+        PairXY emptyPlace = searchEmptyPlace();
 
+        if (chipPlace.x < 0 | chipPlace.y < 0 | emptyPlace.x < 0 | emptyPlace.y < 0)
+            return false;
+
+        if (emptyPlace.y == chipPlace.y){
+            if ((emptyPlace.x == chipPlace.x - 1) | (emptyPlace.x == chipPlace.x + 1)) {
+                setChipPlace(numberChip, emptyPlace);
+                setEmptyPlace(chipPlace);
+                return true;
+            }
+        }
+        if (emptyPlace.x == chipPlace.x){
+            if ((emptyPlace.y == chipPlace.y - 1) | (emptyPlace.y == chipPlace.y + 1)) {
+                setChipPlace(numberChip, emptyPlace);
+                setEmptyPlace(chipPlace);
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public Pair searchEmptyPlace() {
+    public int getChipPlace(PairXY placeChip) {
+        return boxWithChips[placeChip.x][placeChip.y];
+    }
+
+    public boolean setChipPlace(int numberChip, PairXY placeChip) {
+        if (placeChip.x >= 0 & placeChip.x < xBoxSize & placeChip.y >= 0 & placeChip.y < yBoxSize) {
+            boxWithChips[placeChip.x][placeChip.y] = numberChip;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setEmptyPlace(PairXY placeEmpty) {
+        if (placeEmpty.x >= 0 & placeEmpty.x < xBoxSize & placeEmpty.y >= 0 & placeEmpty.y < yBoxSize) {
+            boxWithChips[placeEmpty.x][placeEmpty.y] = 0;
+            return true;
+        }
+        return false;
+    }
+
+    public PairXY searchChipPlace(int numberChip) {
+        for (int j = 0; j < yBoxSize; j++) {
+            for (int i = 0; i < xBoxSize; i++) {
+                if (boxWithChips[i][j] == numberChip)
+                    return new PairXY(i, j);
+            }
+        }
+        return new PairXY(-1, -1);
+    }
+
+    public PairXY searchEmptyPlace() {
         for (int j = 0; j < yBoxSize; j++) {
             for (int i = 0; i < xBoxSize; i++) {
                 if (boxWithChips[i][j] == 0)
-                    return new Pair(i, j);
+                    return new PairXY(i, j);
             }
         }
-        return new Pair(xBoxSize - 1, yBoxSize - 1);
+        return new PairXY( -1, -1);
     }
 
     public void reloadRandomChips() {
@@ -55,12 +106,18 @@ public class BoxWithChips {
         return false;
     }
 
-    private class Pair {
+    private class PairXY {
         int x;
         int y;
-        public Pair(int x, int y) {
+
+        public PairXY(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+
+        public PairXY(PairXY val) {
+            this.x = val.x;
+            this.y = val.y;
         }
     }
 }
