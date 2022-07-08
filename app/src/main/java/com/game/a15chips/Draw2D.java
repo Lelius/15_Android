@@ -42,12 +42,15 @@ public class Draw2D extends View {
     final private int height;
     final private int xChip;
     final private int xBox;
+    final private int yBox;
     final private int xReset;
     final private int yReset;
     final private int xClose;
     final private int yClose;
     final private int xWell;
     final private int yWell;
+    final private int interval;
+    final private int boxWallThickness;
 
     public Draw2D(Context context) {
         super(context);
@@ -60,6 +63,7 @@ public class Draw2D extends View {
         height = size.y;
 
         xBox = Math.min(width, height);
+        yBox = xBox;
         xyRatio = 445.0 / (double) xBox;
         xChip = (int)(100.0 / xyRatio);
         xReset = (int)(332.0 / xyRatio);
@@ -68,11 +72,13 @@ public class Draw2D extends View {
         yClose = (int)(50.0 / xyRatio);
         xWell = (int)(380.0 / xyRatio);
         yWell = (int)(350.0 / xyRatio);
+        interval = (int)(5.0 / xyRatio);
+        boxWallThickness = (int)(10.0 / xyRatio);
 
         Resources res = this.getResources();
-        box_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.box), xBox, xBox, false);
+        box_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.box), xBox, yBox, false);
         reset_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.reset), xReset, yReset, false);
-        close_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.x2), xClose, yClose, false);
+        close_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.x3), xClose, yClose, false);
         chip_1_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip1), xChip, xChip, false);
         chip_2_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip2), xChip, xChip, false);
         chip_3_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip3), xChip, xChip, false);
@@ -90,8 +96,6 @@ public class Draw2D extends View {
         chip_15_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip15), xChip, xChip, false);
         wellWhite_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_white_380x350), xWell, yWell, false);
         wellBlack_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_black_380x350), xWell, yWell, false);
-
-
     }
 
     @Override
@@ -102,8 +106,13 @@ public class Draw2D extends View {
         mPaint.setColor(Color.BLACK);
         canvas.drawPaint(mPaint);
 
-        canvas.drawBitmap(box_Bitmap, 0, 0, null);
-        canvas.drawBitmap(chip_1_Bitmap, (int)(15.0 / xyRatio), (int)(15.0 / xyRatio), null);
-        canvas.drawBitmap(chip_2_Bitmap, (int)(120.0 / xyRatio), (int)(15.0 / xyRatio), null);
+        int xZero, yZero;
+        xZero = 0;
+        yZero = (height - (yBox + yReset)) / 2;
+
+
+        canvas.drawBitmap(box_Bitmap, xZero, yZero, null);
+        canvas.drawBitmap(reset_Bitmap, xZero, yZero + yBox + 1,null);
+        canvas.drawBitmap(close_Bitmap, xZero + xReset + 1, yZero + yBox + 1, null);
     }
 }
