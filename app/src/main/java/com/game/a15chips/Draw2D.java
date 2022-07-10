@@ -12,6 +12,8 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Draw2D extends View {
 
     private Paint mPaint = new Paint();
@@ -52,6 +54,9 @@ public class Draw2D extends View {
     final private int interval;
     final private int boxWallThickness;
 
+    private int xZero;
+    private int yZero;
+
     public Draw2D(Context context) {
         super(context);
 
@@ -75,6 +80,11 @@ public class Draw2D extends View {
         interval = (int)(5.0 / xyRatio);
         boxWallThickness = (int)(10.0 / xyRatio);
 
+        xZero = 0;
+        MainActivity activity = (MainActivity) getContext();
+        int heightActionBar = activity.getSupportActionBar().getHeight();
+        yZero = (height - (yBox + yReset + heightActionBar)) / 2;
+
         Resources res = this.getResources();
         box_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.box), xBox, yBox, false);
         reset_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.reset), xReset, yReset, false);
@@ -96,20 +106,24 @@ public class Draw2D extends View {
         chip_15_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip15), xChip, xChip, false);
         wellWhite_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_white_380x350), xWell, yWell, false);
         wellBlack_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_black_380x350), xWell, yWell, false);
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        MainActivity activity = (MainActivity) getContext();
+        int heightActionBar = activity.getSupportActionBar().getHeight();
+        yZero = (height - (yBox + yReset + heightActionBar)) / 2;
+
+        onDrawStaticObjects(canvas);
+    }
+
+    protected void onDrawStaticObjects(Canvas canvas) {
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(Color.BLACK);
         canvas.drawPaint(mPaint);
-
-        int xZero, yZero;
-        xZero = 0;
-        yZero = (height - (yBox + yReset)) / 2;
-
 
         canvas.drawBitmap(box_Bitmap, xZero, yZero, null);
         canvas.drawBitmap(reset_Bitmap, xZero, yZero + yBox + 1,null);
