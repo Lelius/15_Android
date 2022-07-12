@@ -8,15 +8,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 public class Draw2D extends View {
 
-    private Paint mPaint = new Paint();
+    private Paint mPaint;
 
     final private Bitmap box_Bitmap;
     final private Bitmap reset_Bitmap;
@@ -57,8 +57,14 @@ public class Draw2D extends View {
     private int xZero;
     private int yZero;
 
+    private Drawable chip_1_Drawable;
+    private float xChip_1_Drawable;
+    private float yChip_1_Drawable;
+
     public Draw2D(Context context) {
         super(context);
+
+        this.mPaint = new Paint();
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -107,6 +113,8 @@ public class Draw2D extends View {
         wellWhite_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_white_380x350), xWell, yWell, false);
         wellBlack_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_black_380x350), xWell, yWell, false);
 
+        chip_1_Drawable = getResources().getDrawable(R.drawable.chip1);
+        chip_1_Drawable.setBounds(0, 0, xChip, xChip);
     }
 
     @Override
@@ -118,6 +126,30 @@ public class Draw2D extends View {
         yZero = (height - (yBox + yReset + heightActionBar)) / 2;
 
         onDrawStaticObjects(canvas);
+        canvas.save();
+        canvas.translate(xChip_1_Drawable, yChip_1_Drawable);
+        chip_1_Drawable.draw(canvas);
+        canvas.restore();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                xChip_1_Drawable = event.getX();
+                yChip_1_Drawable = event.getY();
+                invalidate();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     protected void onDrawStaticObjects(Canvas canvas) {
