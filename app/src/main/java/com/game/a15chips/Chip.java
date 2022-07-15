@@ -1,33 +1,33 @@
 package com.game.a15chips;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 
 public class Chip {
     private int numberChip;
     private int x;
     private int y;
-    private Drawable imageChip;
+    private Bitmap bitmapChip;
+    private boolean isShowImageChip;
 
-    public Chip(int numberChip, int x, int y, Drawable imageChip){
+    public Chip(int numberChip, int x, int y, Bitmap bitmapChip){
         this.numberChip = numberChip;
         this.x = x;
         this.y = y;
-        this.imageChip = imageChip;
+        this.bitmapChip = bitmapChip;
+        this.isShowImageChip = true;
     }
 
-    public Chip(int numberChip, int x, int y){
-        this.numberChip = numberChip;
-        this.x = x;
-        this.y = y;
-        this.imageChip = null;
-    }
-
-    public Chip(int numberChip){
+    public Chip(int numberChip, Bitmap bitmapChip){
         this.numberChip = numberChip;
         this.x = 0;
         this.y = 0;
-        this.imageChip = null;
+        this.bitmapChip = bitmapChip;
+        this.isShowImageChip = true;
     }
+
+    public void show() { isShowImageChip = true; }
+
+    public void hide() { isShowImageChip = false; }
 
     public int getNumberChip() {
         return numberChip;
@@ -53,11 +53,11 @@ public class Chip {
         this.y = y;
     }
 
-    public Drawable getImageChip() {
-        return imageChip;
-    }
+    public Bitmap getBitmapChip() {
+        return bitmapChip;
+    }       //TODO: реализовать show и hide
 
-    public void setImageChip(Drawable imageChip) {
-        this.imageChip = imageChip;
+    public void setBitmapChip(Bitmap bitmapChip) {
+        this.bitmapChip = bitmapChip;
     }
 }

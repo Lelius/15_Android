@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.Random;
 
 public class BoxWithChips {
-    private static final int xBoxSize = 4;
-    private static final int yBoxSize = 4;
+    protected static final int xBoxSize = 4;
+    protected static final int yBoxSize = 4;
     private int[][] boxWithChips;
 
     public BoxWithChips() {
@@ -83,6 +83,12 @@ public class BoxWithChips {
 
         for (int j = 0; j < yBoxSize; j++) {
             for (int i = 0; i < xBoxSize; i++) {
+                boxWithChips[i][j] = 0;
+            }
+        }
+
+        for (int j = 0; j < yBoxSize; j++) {
+            for (int i = 0; i < xBoxSize; i++) {
                 if (i == xBoxSize - 1 && j == yBoxSize - 1) {
                     boxWithChips[i][j] = 0;                         //Последняя ячейка пустая
                     return;
@@ -106,18 +112,4 @@ public class BoxWithChips {
         return false;
     }
 
-    private class PairXY {
-        int x;
-        int y;
-
-        public PairXY(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public PairXY(PairXY val) {
-            this.x = val.x;
-            this.y = val.y;
-        }
-    }
 }
