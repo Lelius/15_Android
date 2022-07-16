@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,39 +24,8 @@ public class Draw2D extends View {
     final private Bitmap box_Bitmap;
     final private Bitmap reset_Bitmap;
     final private Bitmap close_Bitmap;
-    /*final private Bitmap chip_1_Bitmap;
-    final private Bitmap chip_2_Bitmap;
-    final private Bitmap chip_3_Bitmap;
-    final private Bitmap chip_4_Bitmap;
-    final private Bitmap chip_5_Bitmap;
-    final private Bitmap chip_6_Bitmap;
-    final private Bitmap chip_7_Bitmap;
-    final private Bitmap chip_8_Bitmap;
-    final private Bitmap chip_9_Bitmap;
-    final private Bitmap chip_10_Bitmap;
-    final private Bitmap chip_11_Bitmap;
-    final private Bitmap chip_12_Bitmap;
-    final private Bitmap chip_13_Bitmap;
-    final private Bitmap chip_14_Bitmap;
-    final private Bitmap chip_15_Bitmap;*/
     final private Bitmap wellWhite_Bitmap;
     final private Bitmap wellBlack_Bitmap;
-
-    /*final private Chip chip_1;
-    final private Chip chip_2;
-    final private Chip chip_3;
-    final private Chip chip_4;
-    final private Chip chip_5;
-    final private Chip chip_6;
-    final private Chip chip_7;
-    final private Chip chip_8;
-    final private Chip chip_9;
-    final private Chip chip_10;
-    final private Chip chip_11;
-    final private Chip chip_12;
-    final private Chip chip_13;
-    final private Chip chip_14;
-    final private Chip chip_15;*/
 
     private ArrayList<Chip> chips;
 
@@ -78,8 +47,8 @@ public class Draw2D extends View {
     private int xZero;
     private int yZero;
 
-    private float xChip_1_Drawable;
-    private float yChip_1_Drawable;
+    enum WhiteOrBlackWin { WHITE, BLACK };
+    private WhiteOrBlackWin whiteOrBlackWinImage;
 
     public Draw2D(Context context) {
         super(context);
@@ -89,6 +58,7 @@ public class Draw2D extends View {
         this.mPaint = new Paint();
 
         boxWithChips.reloadRandomChips();
+        whiteOrBlackWinImage = WhiteOrBlackWin.WHITE;
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -105,8 +75,8 @@ public class Draw2D extends View {
         yReset = (int) (50.0 / xyRatio);
         xClose = (int) (112.0 / xyRatio);
         yClose = (int) (50.0 / xyRatio);
-        xWell = (int) (380.0 / xyRatio);
-        yWell = (int) (350.0 / xyRatio);
+        xWell = (int) (380.0 / xyRatio);    //35
+        yWell = (int) (350.0 / xyRatio);    //45
         interval = (int) (5.0 / xyRatio);
         boxWallThickness = (int) (10.0 / xyRatio);
 
@@ -119,21 +89,6 @@ public class Draw2D extends View {
         box_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.box), xBox, yBox, false);
         reset_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.reset), xReset, yReset, false);
         close_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.x3), xClose, yClose, false);
-        /*chip_1_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip1), xChip, xChip, false);
-        chip_2_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip2), xChip, xChip, false);
-        chip_3_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip3), xChip, xChip, false);
-        chip_4_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip4), xChip, xChip, false);
-        chip_5_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip5), xChip, xChip, false);
-        chip_6_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip6), xChip, xChip, false);
-        chip_7_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip7), xChip, xChip, false);
-        chip_8_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip8), xChip, xChip, false);
-        chip_9_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip9), xChip, xChip, false);
-        chip_10_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip10), xChip, xChip, false);
-        chip_11_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip11), xChip, xChip, false);
-        chip_12_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip12), xChip, xChip, false);
-        chip_13_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip13), xChip, xChip, false);
-        chip_14_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip14), xChip, xChip, false);
-        chip_15_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.chip15), xChip, xChip, false);*/
         wellWhite_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_white_380x350), xWell, yWell, false);
         wellBlack_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.well_black_380x350), xWell, yWell, false);
 
@@ -163,13 +118,31 @@ public class Draw2D extends View {
         int heightActionBar = activity.getSupportActionBar().getHeight();
         yZero = (height - (yBox + yReset + heightActionBar)) / 2;
 
-        onDrawStaticObjects(canvas);
-        //canvas.save();
-        //canvas.drawBitmap(chip_1_Bitmap, xChip_1_Drawable, yChip_1_Drawable, null);
-        //canvas.restore();
-        getCoordinateChips();
-        for (Chip chip: chips){
-            canvas.drawBitmap(chip.getBitmapChip(), (float) chip.getX(), (float) chip.getY(), null);
+        if(!boxWithChips.isOrderWin()) {
+            onDrawStaticObjects(canvas);
+            getCoordinateChips();
+            for (Chip chip : chips) {
+                canvas.drawBitmap(chip.getBitmapChip(), (float) chip.getX(), (float) chip.getY(), null);
+            }
+        }
+        else {
+            onDrawStaticObjects(canvas);
+            onDrawWin(canvas);
+            new CountDownTimer(500, 500) {
+                @Override
+                public void onTick(long l) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    if (whiteOrBlackWinImage == WhiteOrBlackWin.BLACK)
+                        whiteOrBlackWinImage = WhiteOrBlackWin.WHITE;
+                    else
+                        whiteOrBlackWinImage = WhiteOrBlackWin.BLACK;
+                    invalidate();
+                }
+            }.start();
         }
     }
 
@@ -177,18 +150,21 @@ public class Draw2D extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                //reload
                 if (event.getX() >= xZero & event.getX() <= xZero + xReset) {
                     if (event.getY() > yZero + yBox & event.getY() <= yZero + yBox + yReset ) {
                         boxWithChips.reloadRandomChips();
                         invalidate();
                     }
                 }
+                //close
                 if (event.getX() > xZero + xReset & event.getX() <= xZero + xReset + xClose) {
                     if (event.getY() > yZero + yBox & event.getY() <= yZero + yBox + yReset ) {
                         MainActivity activity = (MainActivity) getContext();
                         activity.finishAffinity();
                     }
                 }
+                //chips
                 for (int j = 0; j < BoxWithChips.yBoxSize; j++){
                     for (int i = 0; i < BoxWithChips.xBoxSize; i++){
                         if (event.getX() >= (xZero + boxWallThickness + interval + (i * (xChip + interval)))
@@ -229,5 +205,14 @@ public class Draw2D extends View {
             chip.setX((int)(xZero + boxWallThickness + interval + (coordInBox.x * (xChip + interval))));
             chip.setY((int)(yZero + boxWallThickness + interval + (coordInBox.y * (xChip + interval))));
         }
+    }
+
+    public void onDrawWin(Canvas canvas){
+        if (whiteOrBlackWinImage == WhiteOrBlackWin.WHITE)
+            canvas.drawBitmap(wellWhite_Bitmap, (int) (xZero + (35.0 / xyRatio)), (int) (yZero + (45.0 / xyRatio)), null);
+        else if (whiteOrBlackWinImage == WhiteOrBlackWin.BLACK)
+            canvas.drawBitmap(wellBlack_Bitmap, (int) (xZero + (35.0 / xyRatio)), (int) (yZero + (45.0 / xyRatio)), null);
+        else
+            throw new IllegalArgumentException("Value does not coincide with possible options.");
     }
 }

@@ -55,7 +55,7 @@ public class Chip {
 
     public Bitmap getBitmapChip() {
         return bitmapChip;
-    }       //TODO: реализовать show и hide
+    }       //TODO: реализовать show и hide (а надо ли?)
 
     public void setBitmapChip(Bitmap bitmapChip) {
         this.bitmapChip = bitmapChip;

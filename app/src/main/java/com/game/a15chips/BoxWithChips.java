@@ -112,4 +112,17 @@ public class BoxWithChips {
         return false;
     }
 
+    public boolean isOrderWin(){
+        int testNumberChip = 1;
+        for (int j = 0; j < yBoxSize; j++){
+            for (int i = 0; i < xBoxSize; i++){
+                if (i == 3 & j == 3)
+                    continue;
+                if (boxWithChips[i][j] != testNumberChip)
+                    return false;
+                testNumberChip++;
+            }
+        }
+        return true;
+    }
 }
