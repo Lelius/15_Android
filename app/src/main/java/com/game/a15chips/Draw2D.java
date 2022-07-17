@@ -49,6 +49,7 @@ public class Draw2D extends View {
 
     enum WhiteOrBlackWin { WHITE, BLACK };
     private WhiteOrBlackWin whiteOrBlackWinImage;
+    private boolean countDownTimerStatus;
 
     public Draw2D(Context context) {
         super(context);
@@ -59,6 +60,8 @@ public class Draw2D extends View {
 
         boxWithChips.reloadRandomChips();
         whiteOrBlackWinImage = WhiteOrBlackWin.WHITE;
+        //countDownTimerStatus обеспечивает уникальность таймера, отсекает двойников
+        countDownTimerStatus = false;
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -83,7 +86,7 @@ public class Draw2D extends View {
         xZero = 0;
         MainActivity activity = (MainActivity) getContext();
         int heightActionBar = activity.getSupportActionBar().getHeight();
-        yZero = (height - (yBox + yReset + heightActionBar)) / 2;
+        yZero = (height - heightActionBar - (yBox + yReset)) / 2;
 
         Resources res = this.getResources();
         box_Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.box), xBox, yBox, false);
@@ -128,21 +131,25 @@ public class Draw2D extends View {
         else {
             onDrawStaticObjects(canvas);
             onDrawWin(canvas);
-            new CountDownTimer(500, 500) {
-                @Override
-                public void onTick(long l) {
+            if (countDownTimerStatus == false) {
+                new CountDownTimer(500, 500) {
+                    @Override
+                    public void onTick(long l) {
 
-                }
+                    }
 
-                @Override
-                public void onFinish() {
-                    if (whiteOrBlackWinImage == WhiteOrBlackWin.BLACK)
-                        whiteOrBlackWinImage = WhiteOrBlackWin.WHITE;
-                    else
-                        whiteOrBlackWinImage = WhiteOrBlackWin.BLACK;
-                    invalidate();
-                }
-            }.start();
+                    @Override
+                    public void onFinish() {
+                        if (whiteOrBlackWinImage == WhiteOrBlackWin.BLACK)
+                            whiteOrBlackWinImage = WhiteOrBlackWin.WHITE;
+                        else
+                            whiteOrBlackWinImage = WhiteOrBlackWin.BLACK;
+                        countDownTimerStatus = false;
+                        invalidate();
+                    }
+                }.start();
+            }
+            countDownTimerStatus = true;
         }
     }
 
@@ -155,6 +162,7 @@ public class Draw2D extends View {
                     if (event.getY() > yZero + yBox & event.getY() <= yZero + yBox + yReset ) {
                         boxWithChips.reloadRandomChips();
                         invalidate();
+                        countDownTimerStatus = false;
                     }
                 }
                 //close
