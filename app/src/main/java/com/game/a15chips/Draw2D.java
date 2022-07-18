@@ -173,14 +173,16 @@ public class Draw2D extends View {
                     }
                 }
                 //chips
-                for (int j = 0; j < BoxWithChips.yBoxSize; j++){
-                    for (int i = 0; i < BoxWithChips.xBoxSize; i++){
-                        if (event.getX() >= (xZero + boxWallThickness + interval + (i * (xChip + interval)))
-                                & event.getX() < (xZero + boxWallThickness + interval + xChip + (i * (xChip + interval)))
-                                & event.getY() >= (yZero + boxWallThickness + interval + (j * (xChip + interval)))
-                                & event.getY() < (yZero + boxWallThickness + interval + xChip + (j * (xChip + interval)))){
-                            boxWithChips.moveChip(boxWithChips.getChipPlace(new PairXY(i, j)));
-                            invalidate();
+                if (!boxWithChips.isOrderWin()) {
+                    for (int j = 0; j < BoxWithChips.yBoxSize; j++) {
+                        for (int i = 0; i < BoxWithChips.xBoxSize; i++) {
+                            if (event.getX() >= (xZero + boxWallThickness + interval + (i * (xChip + interval)))
+                                    & event.getX() < (xZero + boxWallThickness + interval + xChip + (i * (xChip + interval)))
+                                    & event.getY() >= (yZero + boxWallThickness + interval + (j * (xChip + interval)))
+                                    & event.getY() < (yZero + boxWallThickness + interval + xChip + (j * (xChip + interval)))) {
+                                boxWithChips.moveChip(boxWithChips.getChipPlace(new PairXY(i, j)));
+                                invalidate();
+                            }
                         }
                     }
                 }
