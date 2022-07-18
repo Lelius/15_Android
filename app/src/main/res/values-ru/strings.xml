@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Пятнашки (leliuslogunov v1.0)</string>
+    <string name="app_name">Пятнашки</string>
+    <string name="subtitle">(leliuslogunov v1.0)</string>
 </resources>

@@ -121,6 +121,7 @@ public class Draw2D extends View {
         int heightActionBar = activity.getSupportActionBar().getHeight();
         yZero = (height - (yBox + yReset + heightActionBar)) / 2;
 
+        //выводим фишки
         if(!boxWithChips.isOrderWin()) {
             onDrawStaticObjects(canvas);
             getCoordinateChips();
@@ -128,15 +129,14 @@ public class Draw2D extends View {
                 canvas.drawBitmap(chip.getBitmapChip(), (float) chip.getX(), (float) chip.getY(), null);
             }
         }
+        //или победную картинку
         else {
             onDrawStaticObjects(canvas);
             onDrawWin(canvas);
             if (countDownTimerStatus == false) {
                 new CountDownTimer(500, 500) {
                     @Override
-                    public void onTick(long l) {
-
-                    }
+                    public void onTick(long l) {}
 
                     @Override
                     public void onFinish() {

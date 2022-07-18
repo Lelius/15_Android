@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Fünfzehn Puzzle (leliuslogunov v1.0)</string>
+    <string name="app_name">Fünfzehn Puzzle</string>
+    <string name="subtitle">(leliuslogunov v1.0)</string>
 </resources>

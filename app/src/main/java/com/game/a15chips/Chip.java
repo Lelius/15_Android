@@ -7,14 +7,14 @@ public class Chip {
     private int x;
     private int y;
     private Bitmap bitmapChip;
-    private boolean isShowImageChip;
+    private boolean isShowBitmapChip;
 
     public Chip(int numberChip, int x, int y, Bitmap bitmapChip){
         this.numberChip = numberChip;
         this.x = x;
         this.y = y;
         this.bitmapChip = bitmapChip;
-        this.isShowImageChip = true;
+        this.isShowBitmapChip = true;
     }
 
     public Chip(int numberChip, Bitmap bitmapChip){
@@ -22,12 +22,14 @@ public class Chip {
         this.x = 0;
         this.y = 0;
         this.bitmapChip = bitmapChip;
-        this.isShowImageChip = true;
+        this.isShowBitmapChip = true;
     }
 
-    public void show() { isShowImageChip = true; }
+    public boolean isShowBitmapChip() { return isShowBitmapChip; }
 
-    public void hide() { isShowImageChip = false; }
+    public void onShow() { isShowBitmapChip = true; }
+
+    public void onHide() { isShowBitmapChip = false; }
 
     public int getNumberChip() {
         return numberChip;
@@ -53,9 +55,7 @@ public class Chip {
         this.y = y;
     }
 
-    public Bitmap getBitmapChip() {
-        return bitmapChip;
-    }       //TODO: реализовать show и hide (а надо ли?)
+    public Bitmap getBitmapChip() { return bitmapChip; }
 
     public void setBitmapChip(Bitmap bitmapChip) {
         this.bitmapChip = bitmapChip;
