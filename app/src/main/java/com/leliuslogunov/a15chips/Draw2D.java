@@ -1,4 +1,4 @@
-package com.game.a15chips;
+package com.leliuslogunov.a15chips;
 
 import android.content.Context;
 import android.content.res.Resources;

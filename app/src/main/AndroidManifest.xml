@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.game.a15chips">
+    package="com.leliuslogunov.a15chips">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.15_Android">
         <activity
-            android:name=".MainActivity"
+            android:name="com.leliuslogunov.a15chips.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>

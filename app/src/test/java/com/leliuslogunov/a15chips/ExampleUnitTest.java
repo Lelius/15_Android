@@ -1,4 +1,4 @@
-package com.game.a15chips;
+package com.leliuslogunov.a15chips;
 
 import org.junit.Test;
 

@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.game.a15chips"
+        applicationId "com.leliuslogunov.a15chips"
         minSdk 21
         targetSdk 32
         versionCode 1
@@ -24,6 +24,12 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "a15chips_${variant.versionName}_${variant.buildType.name}.apk"
+        }
     }
 }
 
